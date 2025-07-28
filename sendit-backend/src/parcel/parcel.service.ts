@@ -4,13 +4,15 @@ import { CreateParcelDto } from './dtos/create-parcel.dto';
 import { UpdateParcelDto } from './dtos/update-parcel.dto'; 
 import { GeocodingService } from '../geocoding/geocoding.service';
 import { MailService } from 'src/mail/mail.service';
+import { NotificationsService } from 'src/notification/notification.service';
 
 @Injectable()
 export class ParcelService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly geocodingService: GeocodingService,
-    private readonly mailService: MailService
+    private readonly mailService: MailService,
+    private readonly notificationService: NotificationsService
   ) {}
 
   async create(dto: CreateParcelDto) {
@@ -96,40 +98,60 @@ export class ParcelService {
   
     let courierId: string | undefined;
   
+    // If assigning or updating a courier
     if (dto.courierEmail) {
       const courier = await this.prisma.user.findUnique({
         where: { email: dto.courierEmail },
       });
+  
       if (!courier) throw new NotFoundException('Courier not found');
       courierId = courier.id;
   
-      // Notify Courier
+      // Notify Courier via email
       await this.mailService.send(
         courier.email,
         'Parcel Assignment Updated',
         `Hello ${courier.name},<br><br>You have been assigned a parcel.<br>Pickup: ${dto.pickupAddress ?? parcel.pickupAddress}<br>Destination: ${dto.destinationAddress ?? parcel.destinationAddress}<br><br>Regards,<br>SendIT`
       );
+  
+      // In-app Notification
+      await this.notificationService.create({
+        email: courier.email,
+        message: `You have been assigned a parcel with ID ${parcel.id}`,
+        type: 'SYSTEM',
+      });
+      
     }
   
     const updatedParcel = await this.prisma.parcel.update({
       where: { id },
       data: {
-        ...dto,
-        courierId: courierId,
+        pickupAddress: dto.pickupAddress,
+        destinationAddress: dto.destinationAddress,
+        status: dto.status,
+        courierId,
       },
     });
   
-    //  Notify Sender if status changed
-    if (dto.status) {
+    // Notify Sender if status has changed
+    if (dto.status && dto.status !== parcel.status) {
       await this.mailService.send(
         parcel.sender.email,
         'Parcel Status Update',
         `Hello ${parcel.sender.name},<br><br>Your parcel with ID <strong>${parcel.id}</strong> has been updated.<br>Status: <strong>${dto.status}</strong>.<br><br>Regards,<br>SendIT`
       );
+  
+      await this.notificationService.create({
+        email: parcel.sender.email,
+        message: `Your parcel with ID ${parcel.id} is now marked as ${dto.status}`,
+        type: 'STATUS_UPDATE', // 👈 Use appropriate type from your enum or expected values
+      });
+      
     }
   
     return updatedParcel;
   }
+  
   
 
   //  New method for direct courier assignment

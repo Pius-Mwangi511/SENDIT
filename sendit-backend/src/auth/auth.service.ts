@@ -126,6 +126,8 @@ import {
         'Verify Email',
         `Click to verify: ${process.env.FRONTEND_URL}/verify-email/${token.token}`
       );
+
+      
     }
   }
   

@@ -8,6 +8,8 @@ import { HighlightHeavyDirective } from '../../../shared/all-directives/directiv
 import { StatusFormatPipe } from '../../../shared/all-pipes/pipes/status-format-pipe';
 import { ParcelService } from '../../../services/parcels'; 
 import { ParcelTrackingService } from '../../../services/parcel-tracking'; 
+import { AlertService } from '../../../shared/alert-service';
+import { AlertComponent } from '../../../shared/alert-component/alert-component';
 
 @Component({
   selector: 'app-update-location',
@@ -19,7 +21,8 @@ import { ParcelTrackingService } from '../../../services/parcel-tracking';
     NgClass,
     FormsModule,
     HighlightHeavyDirective,
-    StatusFormatPipe
+    StatusFormatPipe,
+    AlertComponent,
   ],
   template: `
     <!-- Navbar -->
@@ -35,7 +38,7 @@ import { ParcelTrackingService } from '../../../services/parcel-tracking';
       <button class="p-5" routerLink="/home">Log Out</button>
     </div>
     <hr>
-
+   <app-alert></app-alert> 
     <div class="grid grid-cols-[215px,1200px] gap-4 mt-10">
       <!-- Sidebar -->
       <div class="border border-black-600 rounded-xl bg-[rgba(37,38,65,0.7)] shadow-2xl h-[500px] w-[300px] m-5">
@@ -132,7 +135,8 @@ export class UpdateLocation implements OnInit {
 
   constructor(
     private parcelService: ParcelService,
-    private trackingService: ParcelTrackingService
+    private trackingService: ParcelTrackingService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -169,7 +173,7 @@ export class UpdateLocation implements OnInit {
 
     this.trackingService.create(data).subscribe({
       next: () => {
-        alert('Tracking location updated successfully!');
+        this.alertService.showAlert('Tracking location updated successfully!', 'success');
         this.editParcelId = null;
         this.tracking = {
           latitude: 0,

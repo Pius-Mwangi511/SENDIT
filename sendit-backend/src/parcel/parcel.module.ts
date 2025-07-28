@@ -4,10 +4,11 @@ import { ParcelController } from './parcel.controller';
 import { PrismaService } from '../prisma/prisma.service';
 import { GeocodingModule } from 'src/geocoding/geocoding.module';
 import { MailService } from 'src/mail/mail.service';
+import { NotificationsService } from 'src/notification/notification.service';
 
 @Module({
   imports: [GeocodingModule],
   controllers: [ParcelController],
-  providers: [ParcelService,MailService, PrismaService],
+  providers: [ParcelService,MailService, PrismaService,NotificationsService],
 })
 export class ParcelModule {}

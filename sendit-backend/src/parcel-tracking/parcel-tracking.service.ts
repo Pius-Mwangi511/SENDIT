@@ -4,6 +4,7 @@ import { GeocodingService } from '../geocoding/geocoding.service';
 import { CreateParcelTrackingDto } from './dtos/create-parcelTracking.dto'; 
 import { UpdateParcelTrackingDto } from './dtos/update-parcelTracking.dto';
 import { MailService } from 'src/mail/mail.service';
+import { NotificationsService } from 'src/notification/notification.service';
 
 @Injectable()
 export class ParcelTrackingService {
@@ -11,6 +12,7 @@ export class ParcelTrackingService {
     private readonly prisma: PrismaService,
     private readonly geoService: GeocodingService,
     private readonly mailService: MailService,
+    private readonly notificationService: NotificationsService
   ) {}
 
   async create(dto: CreateParcelTrackingDto) {
@@ -50,6 +52,12 @@ export class ParcelTrackingService {
        <p>Status: ${dto.statusNote}</p>
        <p>Regards,<br>SendIT</p>`
     );
+
+    await this.notificationService.create({
+        email: parcel.sender.email,
+        message: `Hi ${parcel.sender.name},Your parcel is now at: ${dto.location}`,
+        type: 'DELIVERY', // 👈 Use appropriate type from your enum or expected values
+      });
   
     // Notify receiver
     await this.mailService.send(
@@ -60,6 +68,12 @@ export class ParcelTrackingService {
        <p>Status: ${dto.statusNote}</p>
        <p>Regards,<br>SendIT</p>`
     );
+
+    await this.notificationService.create({
+        email: parcel.receiver.email,
+        message: `Hi ${parcel.sender.name},Your parcel is now at: ${dto.location}`,
+        type: 'DELIVERY', // 👈 Use appropriate type from your enum or expected values
+      });
   
     return tracking;
   }
