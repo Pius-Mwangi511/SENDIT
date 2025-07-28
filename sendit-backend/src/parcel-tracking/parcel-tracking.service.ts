@@ -23,6 +23,10 @@ export class ParcelTrackingService {
     });
   
     if (!parcel) throw new NotFoundException('Parcel not found');
+
+    if (!dto.location || dto.location.trim() === '') {
+        throw new NotFoundException('Location is required for tracking');
+      }
   
     const coords = await this.geoService.getCoordinates(dto.location);
     if (!coords) throw new NotFoundException('Could not geocode location');
