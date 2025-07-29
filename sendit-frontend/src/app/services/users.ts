@@ -34,6 +34,13 @@ export class UserService {
     return this.http.patch(`${this.baseUrl}/${id}`, user);
   }
 
+  updateByEmail(email: string, data: FormData | UpdateUserDto): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/email/${email}`, data);
+  }
+  
+  
+
+
   remove(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }

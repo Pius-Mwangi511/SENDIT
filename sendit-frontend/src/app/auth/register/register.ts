@@ -35,18 +35,20 @@ import { RegisterDto } from '../../interfaces/auth.dtos';
 
           <div class="mr-2 bg-white rounded">
             <form [formGroup]="form" (ngSubmit)="register()">
+             
+
+              <label class="font-bold" for="username">User Name</label><br>
+              <input id="username" type="text" placeholder="Enter your Username" formControlName="name"
+                class="w-[400px] my-1 p-2 mb-4 border border-black-600 rounded-2xl">
+              <div *ngIf="form.get('name')?.touched && form.get('name')?.invalid" class="text-red-500 text-sm mb-2">
+                Username is required
+              </div>
+
               <label class="font-bold" for="email">Email Address</label><br>
               <input id="email" type="email" placeholder="Enter your Email Address" formControlName="email"
                 class="w-[400px] my-1 p-2 mb-4 border border-black-600 rounded-2xl">
               <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="text-red-500 text-sm mb-2">
                 Valid email is required
-              </div>
-
-              <label class="font-bold" for="username">User Name</label><br>
-              <input id="username" type="text" placeholder="Enter your Username" formControlName="username"
-                class="w-[400px] my-1 p-2 mb-4 border border-black-600 rounded-2xl">
-              <div *ngIf="form.get('username')?.touched && form.get('username')?.invalid" class="text-red-500 text-sm mb-2">
-                Username is required
               </div>
 
               <label class="font-bold" for="phone">Phone Number</label><br>
@@ -87,7 +89,7 @@ export class Register {
   ) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required],
+      name: ['', Validators.required],
       phone: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });

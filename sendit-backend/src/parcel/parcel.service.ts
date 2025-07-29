@@ -91,7 +91,10 @@ export class ParcelService {
   async update(id: string, dto: UpdateParcelDto) {
     const parcel = await this.prisma.parcel.findUnique({
       where: { id },
-      include: { sender: true },
+      include: { sender: true ,
+        receiver: true
+      },
+      
     });
   
     if (!parcel) throw new NotFoundException('Parcel not found');
@@ -140,14 +143,26 @@ export class ParcelService {
         'Parcel Status Update',
         `Hello ${parcel.sender.name},<br><br>Your parcel with ID <strong>${parcel.id}</strong> has been updated.<br>Status: <strong>${dto.status}</strong>.<br><br>Regards,<br>SendIT`
       );
+      await this.mailService.send(
+        parcel.receiver.email,
+        'Parcel Status Update',
+        `Hello ${parcel.receiver.name},<br><br>Your expected parcel with ID <strong>${parcel.id}</strong> has been updated.<br>Status: <strong>${dto.status}</strong>.<br><br>Regards,<br>SendIT`
+      );
   
       await this.notificationService.create({
         email: parcel.sender.email,
         message: `Your parcel with ID ${parcel.id} is now marked as ${dto.status}`,
-        type: 'STATUS_UPDATE', // 👈 Use appropriate type from your enum or expected values
+        type: 'STATUS_UPDATE', 
+      });
+
+      await this.notificationService.create({
+        email: parcel.receiver.email,
+        message: `Your expected parcel with ID ${parcel.id} is now marked as ${dto.status}`,
+        type: 'STATUS_UPDATE', 
       });
       
     }
+    
   
     return updatedParcel;
   }
@@ -162,12 +177,17 @@ export class ParcelService {
     });
     if (!courier) throw new NotFoundException('Courier not found');
 
-    // ✅ Notify Courier
+    // Notify Courier
     await this.mailService.send(
       courier.email,
       'Parcel Assigned',
       `Hello ${courier.name},<br><br>You have been assigned a parcel.<br>Pickup: ${parcel.pickupAddress}<br>Destination: ${parcel.destinationAddress}<br><br>Regards,<br>SendIT`
     );
+    await this.notificationService.create({
+        email: courier.email,
+        message: `Hello ${courier.name},<br><br>You have been assigned a parcel.<br>Pickup: ${parcel.pickupAddress}<br>Destination: ${parcel.destinationAddress}`,
+        type: 'SYSTEM', 
+      });
 
     return this.prisma.parcel.update({
       where: { id: parcelId },

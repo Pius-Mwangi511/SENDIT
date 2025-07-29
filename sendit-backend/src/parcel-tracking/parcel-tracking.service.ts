@@ -48,14 +48,14 @@ export class ParcelTrackingService {
       parcel.sender.email,
       `Parcel Update - ${parcel.id}`,
       `<p>Hi ${parcel.sender.name},</p>
-       <p>Your parcel is now at: <strong>${dto.location}</strong>.</p>
+       <p>Your sent parcel is now at: <strong>${dto.location}</strong>.</p>
        <p>Status: ${dto.statusNote}</p>
        <p>Regards,<br>SendIT</p>`
     );
 
     await this.notificationService.create({
         email: parcel.sender.email,
-        message: `Hi ${parcel.sender.name},Your parcel is now at: ${dto.location}`,
+        message: `Hi ${parcel.sender.name},Your sent parcel is now at: ${dto.location}`,
         type: 'DELIVERY', // 👈 Use appropriate type from your enum or expected values
       });
   
@@ -71,7 +71,7 @@ export class ParcelTrackingService {
 
     await this.notificationService.create({
         email: parcel.receiver.email,
-        message: `Hi ${parcel.sender.name},Your parcel is now at: ${dto.location}`,
+        message: `Hi ${parcel.sender.name},the parcel destined for you is now at: ${dto.location}`,
         type: 'DELIVERY', // 👈 Use appropriate type from your enum or expected values
       });
   

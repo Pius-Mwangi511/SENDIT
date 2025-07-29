@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dtos/create-user.dto'; 
 import { UpdateUserDto } from './dtos/update-user.dto'; 
+import { UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Injectable()
 export class UserService {
@@ -36,6 +38,21 @@ export class UserService {
     if (!user) throw new NotFoundException('User not found');
     return this.prisma.user.update({ where: { id }, data });
   }
+
+  async updateByEmail(email: string, dto: UpdateUserDto, profileImage?: string) {
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    if (!user) throw new NotFoundException('User not found');
+  
+    return this.prisma.user.update({
+      where: { email },
+      data: {
+        ...dto,
+        ...(profileImage && { profileImage }), 
+      },
+    });
+  }
+  
+  
   
 
   async remove(id: string) {
