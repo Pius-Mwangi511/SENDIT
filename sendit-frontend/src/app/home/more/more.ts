@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
      <div class="mt-[100px]">
-      <div>
+      <div class="">
         <div class="mt-10">
           <h1 class="flex justify-center text-2xl font-bold text-[rgba(47,50,125,1.0)]" >How sendIT Works</h1>
           <p class="flex justify-center mt-7 font-bold">step by step explanation on how sendIT WORKS.  </p>
@@ -122,7 +122,7 @@ import { Component } from '@angular/core';
 <!-- this is footer     -->
     <div class="flex justify-evenly mt-[70px] bg-[rgba(37,38,65,1.0)] text-white mt-[300px]">
       <div>
-        <p class="mt-10">+254 1010100100110011 <br> Johnduogmail.com <br>Facebook <br> Instagram <br> Twitter <br> Youtube <br> Whatsapp <br> Email</p>
+        <p class="mt-10">+254 1010100100110011  <br>Facebook <br> Instagram <br> Twitter <br> Youtube <br> Whatsapp <br> Email</p>
       </div>
       <div >
         <p class="mt-10">About Us <br>

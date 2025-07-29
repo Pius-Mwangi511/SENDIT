@@ -13,7 +13,7 @@ import {
   import { ResetPasswordDto } from './dtos/reset-password.dto'; 
   import { VerifyEmailDto } from './dtos/verify-email.dto'; 
   import { MailService } from '../mail/mail.service';
-  import { AuthToken, TokenType } from 'generated/prisma'; 
+  import { AuthToken, TokenType } from '@prisma/client'; 
   import { randomUUID } from 'crypto';
   
   @Injectable()

@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
-import { Role } from 'generated/prisma'; 
+import { Role } from '@prisma/client'; 
 
 export interface JwtPayload {
     sub: string;
