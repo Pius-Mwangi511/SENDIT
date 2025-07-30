@@ -17,8 +17,8 @@ import { Header } from '../../shared/component/header/header';
             At <strong>SendIT</strong>, we offer a wide range of fast, secure, and affordable delivery services tailored to meet personal and business needs.
           </p>
          
-      <div class="flex justify-around mt-10 text-center">
-         <div class="border border-black-600 rounded-xl shadow-2xl h-[250px] w-[300px] m-5">
+      <div class="flex justify-around mt-10  text-center">
+         <div class="border border-black-600 rounded-xl shadow-2xl bg-[rgba(37,38,65,1.0)] text-white h-[250px] w-[300px] m-5">
             <h2 class="text-2xl font-semibold mt-6 mb-2 text-center">Parcel Delivery</h2>
             <p class="mb-4 p-5">
               We deliver parcels from one client to another — across towns or regions — with real-time updates and secure handling.
@@ -31,7 +31,7 @@ import { Header } from '../../shared/component/header/header';
              </p>
           </div>
       
-      <div class="border border-black-600 rounded-xl shadow-2xl h-[250px] w-[300px] m-5">
+      <div class="border border-black-600 rounded-xl shadow-2xl bg-[rgba(37,38,65,1.0)] text-white h-[250px] w-[300px] m-5">
       <h2 class="text-2xl font-semibold mt-6 mb-2"> Real-Time Tracking</h2>
       <p class="mb-4 p-5">
         Know exactly where your parcel is with our live map tracking and instant status updates via SMS or email.
@@ -49,7 +49,7 @@ import { Header } from '../../shared/component/header/header';
         <div class="border border-black-600 rounded-xl shadow-2xl h-[250px] w-[350px] m-5">
 
             <h2 class="text-2xl font-semibold mt-6 mb-2"> Customer Support</h2>
-            <p>
+            <p class="p-4">
                Got questions? Our support team is always ready to help via chat, email, or phone.
             </p>
         </div>

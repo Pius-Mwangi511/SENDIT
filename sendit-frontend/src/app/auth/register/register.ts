@@ -19,8 +19,8 @@ import { RegisterDto } from '../../interfaces/auth.dtos';
 
     <div class="flex justify-center mt-[70px] ">
       <div class="grid grid-cols-[500px,400px] gap-4 h-[600px] border-b-2 border border-black-600 rounded-2xl shadow-2xl">
-        <div>
-          <img src="assets/images/all.png" alt="" class=" brightness-50 border-2 border-black-600 rounded-2xl py-4">
+        <div class="bg-gradient-to-b from-[rgba(41,185,231,0.0)] via-[rgba(41,185,231,0.2)] to-[rgba(153,153,153,0.9)] border rounded-xl">
+          <img src="assets/images/all.png" alt="" class=" brightness-50   rounded-2xl py-4">
         </div>
 
         <div>

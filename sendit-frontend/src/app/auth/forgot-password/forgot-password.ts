@@ -17,7 +17,7 @@ import { ForgotPasswordDto } from '../../interfaces/auth.dtos';
     <div class="flex justify-center mt-[70px]">
       <div class="grid grid-cols-[500px,400px] gap-3 h-[500px] border-b-2 border border-black-600 rounded-2xl shadow-2xl">
         <div class="bg-gradient-to-b from-[rgba(41,185,231,0.0)] via-[rgba(41,185,231,0.2)] to-[rgba(153,153,153,0.9)] border rounded-xl">
-          <img src="assets/images/all.png" alt="" class="brightness-50 rounded-2xl py-4">
+          <img src="assets/images/all.png" alt="" class="brightness-50 rounded-2xl py-4 h-[400px]">
         </div>
         <div class="pr-3">
           <h1 class="flex justify-center text-center text-xl font-bold my-4">Forgot Password</h1>
@@ -27,7 +27,7 @@ import { ForgotPasswordDto } from '../../interfaces/auth.dtos';
             </div>
           </div>
           <p class="my-5 mb-10">Enter your email to reset your password</p>
-          <div class="mr-2 bg-white rounded pr-3">
+          <div class="mr-2 bg-white rounded pr-3 mb-10">
             <form (ngSubmit)="sendResetEmail()">
               <label class="font-bold" for="email">Email Address</label><br>
               <input
